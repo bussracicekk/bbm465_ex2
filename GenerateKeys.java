@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.KeyPair;
@@ -36,35 +35,14 @@ public class GenerateKeys {
 		return this.publicKey;
 	}
 
-	public void writeToFile(String path, byte[] key) {
+	public void writeToFile(String path, byte[] key) throws IOException {
 		File f = new File(path);
 		f.getParentFile().mkdirs();
 
-		FileOutputStream fileoutputstream = null;
-		try {
-			fileoutputstream = new FileOutputStream(f);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			fileoutputstream.write(key);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			fileoutputstream.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			fileoutputstream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		FileOutputStream fileoutputstream = new FileOutputStream(f);
+		fileoutputstream.write(key);
+		fileoutputstream.flush();
+		fileoutputstream.close();
 	}
 	public static void createFolder() throws IOException, NoSuchAlgorithmException, NoSuchProviderException {
 		
