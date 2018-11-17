@@ -13,6 +13,9 @@ public class Main {
 	static String publicKey;
 	static String periodTime;
 
+	//take command from console
+	//split command
+	//call functions according to command's part
 	public static void readConsole(){
 		sc = new Scanner(System.in);
 		String command = sc.nextLine();
@@ -47,6 +50,8 @@ public class Main {
 			
 		}
 	}
+	//input -> folder path
+	//function : list files in this folder
 	public static void createFilePathList(String folderPath){
 		File folder = new File(folderPath);
 		File[] listOfFiles = folder.listFiles();
