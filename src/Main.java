@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.Scanner;
 //integrity start -p /Users/Elmas/Documents/hacettepe/bbm/java/ex2/files -r R -l L -h H -k PriKey PubKey -i #
 
@@ -17,15 +18,24 @@ public class Main {
 	//take command from console
 	//split command
 	//call functions according to command's part
-	public static void readConsole() throws IOException, NoSuchAlgorithmException{
+	public static void readConsole() throws IOException, NoSuchAlgorithmException, NoSuchProviderException{
 		Hash hash = new Hash();
+		GenerateKeys gKeys = new GenerateKeys(1024);
 		PrintWriter registryFile;
+		PrintWriter privateFile;
+		PrintWriter publicFile;
 		sc = new Scanner(System.in);
 		String command = sc.nextLine();
 		String[] parts = command.split(" ");
 		
 		registerFilePath = parts[5];
 		registryFile = new PrintWriter(registerFilePath, "UTF-8");
+		
+		privateKey = parts[11];
+		privateFile = new PrintWriter(privateKey, "UTF-8");
+		
+		publicKey = parts[12];
+		publicFile = new PrintWriter(publicKey, "UTF-8");
 		
 		//for this command format:
 		//"integrity start -p P -r R -l L -h H -k PriKey PubKey -i #"
@@ -44,12 +54,15 @@ public class Main {
 				hashFunctionName = parts[9];
 				
 			}
-			else if(parts[9].equals("-k")){
-				privateKey = parts[10];
-				publicKey = parts[11];
+			else if(parts[10].equals("-k")){
+				privateKey = parts[11];
+				publicKey = parts[12];
+				gKeys.createKeys();
+				gKeys.writeToFile(privateFile,privateKey, gKeys.getPublicKey().getEncoded());
+				gKeys.writeToFile(publicFile,publicKey, gKeys.getPrivateKey().getEncoded());
 			}
-			else if(parts[12].equals("-i")){
-				periodTime = parts[13];
+			else if(parts[13].equals("-i")){
+				periodTime = parts[14];
 			}
 			registryFile.close();
 		}
@@ -61,7 +74,7 @@ public class Main {
 		}
 	}
 	
-public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+public static void main(String[] args) throws IOException, NoSuchAlgorithmException, NoSuchProviderException {
 		readConsole();
 		}
 }
