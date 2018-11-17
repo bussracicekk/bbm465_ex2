@@ -16,7 +16,7 @@ public class Hash {
 	
 	//input -> folder path
 	//function : list files in this folder
-	public void createFilePathList(String folderPath, PrintWriter registryFile) throws IOException, NoSuchAlgorithmException{
+	public void createFilePathList(String folderPath, PrintWriter registryFile, String registryFilePath) throws IOException, NoSuchAlgorithmException{
 		File folder = new File(folderPath);
 		File[] listOfFiles = folder.listFiles();
 
@@ -32,11 +32,13 @@ public class Hash {
 				}
 			}
 		}
+		getHashValueRegistry(registryFilePath, registryFile);
+		
 	}
 	
 	//convert from file context(string format) to hash value
 	//write file path - file's hash value
-	public static void getHashValue(String filePath, PrintWriter registryFile) throws IOException, NoSuchAlgorithmException{
+	public void getHashValue(String filePath, PrintWriter registryFile) throws IOException, NoSuchAlgorithmException{
 		String allFileString="";
 		File file = new File(filePath); 
 		System.out.println(filePath);
@@ -53,4 +55,25 @@ public class Hash {
 		
 		registryFile.write(filePath+" "+myHash+"\n");
 	}
+	
+	public void getHashValueRegistry(String filePath, PrintWriter registryFile) throws IOException, NoSuchAlgorithmException{
+		String allFileString="";
+		File file = new File(filePath); 
+		System.out.println(filePath);
+		BufferedReader br = new BufferedReader(new FileReader(file)); 
+		String line; 
+		while ((line = br.readLine()) != null) {
+			allFileString = allFileString+line+"\n";
+		}
+		br.close();
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(allFileString.getBytes());
+		byte[] digest = md.digest();
+		String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+		
+		registryFile.write("##signature: "+myHash);
+		
+	}
+	
+	
 }

@@ -32,10 +32,11 @@ public class Main {
 		if(parts[1].equals("start")){
 			if(parts[2].equals("-p")){
 				folderPath = parts[3];
-				hash.createFilePathList(folderPath,registryFile);
+				hash.createFilePathList(folderPath,registryFile,registerFilePath);
 			}
 			else if(parts[4].equals("-r")){
 				registerFilePath = parts[5];
+				//hash.getHashValue(registerFilePath, registryFile);
 			}
 			else if(parts[6].equals("-l")){
 				logFilePath = parts[7];
