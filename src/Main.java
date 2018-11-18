@@ -58,8 +58,8 @@ public class Main {
 				privateKey = parts[11];
 				publicKey = parts[12];
 				gKeys.createKeys();
-				gKeys.writeToFile(privateFile,privateKey, gKeys.getPublicKey().getEncoded());
-				gKeys.writeToFile(publicFile,publicKey, gKeys.getPrivateKey().getEncoded());
+				gKeys.writeToFile(privateFile,privateKey, gKeys.getPrivateKey().getEncoded());
+				gKeys.writeToFile(publicFile,publicKey, gKeys.getPublicKey().getEncoded());
 			}
 			else if(parts[13].equals("-i")){
 				periodTime = parts[14];
