@@ -1,0 +1,5 @@
+/Users/Elmas/Documents/hacettepe/bbm/java/ex2/files/a.txt 24431765DF0BF4F7E073BFE5D086111A
+/Users/Elmas/Documents/hacettepe/bbm/java/ex2/files/b.txt 9146DF0E65B574ED13A400D4F90418AA
+/Users/Elmas/Documents/hacettepe/bbm/java/ex2/files/c.txt F9354DCD9097340C9DC41EBB4C8F1AFA
+/Users/Elmas/Documents/hacettepe/bbm/java/ex2/files/subfolder/d.txt AC4D5B22542A9A12E4D71BEEB85C354D
+##signature: D41D8CD98F00B204E9800998ECF8427E

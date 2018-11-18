@@ -9,9 +9,14 @@ import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.DatatypeConverter;
 
 public class Hash {
+	public String registryFileHash;
 
 	public Hash() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String getregistryFileHash(){
+		return registryFileHash;
 	}
 	
 	//input -> folder path
@@ -32,7 +37,7 @@ public class Hash {
 				}
 			}
 		}
-		getHashValueRegistry(registryFilePath, registryFile,hashAlgorithm);
+		//getHashValueRegistry(registryFilePath, registryFile,hashAlgorithm);
 		
 	}
 	
@@ -41,7 +46,6 @@ public class Hash {
 	public void getHashValue(String filePath, PrintWriter registryFile,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
 		String allFileString="";
 		File file = new File(filePath); 
-		System.out.println(filePath);
 		BufferedReader br = new BufferedReader(new FileReader(file)); 
 		String line; 
 		while ((line = br.readLine()) != null) {
@@ -56,10 +60,9 @@ public class Hash {
 		registryFile.write(filePath+" "+myHash+"\n");
 	}
 	
-	public void getHashValueRegistry(String filePath, PrintWriter registryFile,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
+	public String getHashValueRegistry(String filePath, PrintWriter registryFile,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
 		String allFileString="";
 		File file = new File(filePath); 
-		System.out.println(filePath);
 		BufferedReader br = new BufferedReader(new FileReader(file)); 
 		String line; 
 		while ((line = br.readLine()) != null) {
@@ -70,8 +73,8 @@ public class Hash {
 		md.update(allFileString.getBytes());
 		byte[] digest = md.digest();
 		String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
-		
-		registryFile.write("##signature: "+myHash);
+		registryFileHash = myHash;
+		return myHash;
 		
 	}
 	
