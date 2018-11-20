@@ -108,7 +108,32 @@ public class Main {
 		 registryString=registryString.substring(0, registryString.length()-1);
 		hashData=hash.getHashValueRegistryForVerification(registryString, parts[8]);
 		Verification veri = new Verification();
-		veri.verification(pubKey, hashData, signature);
+		boolean verific = veri.verification(pubKey, hashData, signature);
+		if (verific == false){
+			String partsRegistryString[]= registryString.split("\n");
+			File file = new File(registerFilePath); 
+			BufferedReader br2 = new BufferedReader(new FileReader(file)); 
+			String line; 
+			int i=0;
+			while ((line = br2.readLine()) != null){
+				if(!line.contains("##sign")){
+					String partsLine[]=line.split(" ");
+					if(!line.equals(partsRegistryString[i])){
+						System.out.println(partsLine[0]+" --> dosyada değişiklik yapılmış");
+					}
+					else{
+						
+					}
+					i++;
+				}
+				else{
+					
+				}
+			}
+		}
+		else{
+			System.out.println("dosyalarda değişiklik yok");
+		}
 		}
 	
 	public static void readConsole() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, SignatureException, IOException{
