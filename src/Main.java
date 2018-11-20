@@ -89,6 +89,7 @@ public class Main {
 		File registerFile = new File(registerFilePath); 
 		BufferedReader br = new BufferedReader(new FileReader(registerFile)); 
 		String hashData="";
+		
 		String signature="";
 		String st; 
 		while ((st = br.readLine()) != null) {
@@ -101,9 +102,11 @@ public class Main {
 			}
 		  }
 		
-		hashData=hash.getHashValueRegistryForVerification(registerFilePath, parts[8]);
-		System.out.println(hashData);
-		System.out.println(signature);
+		registryString=hash.createFilePathListForVerification(parts[2], parts[8]);
+	
+		 
+		 registryString=registryString.substring(0, registryString.length()-1);
+		hashData=hash.getHashValueRegistryForVerification(registryString, parts[8]);
 		Verification veri = new Verification();
 		veri.verification(pubKey, hashData, signature);
 		}

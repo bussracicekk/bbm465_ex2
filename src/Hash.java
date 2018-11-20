@@ -80,12 +80,12 @@ public class Hash {
 		//return allFileString;
 	}
 	
-	public String getHashValueRegistryForVerification(String filePath,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
-		String allFileString="";
+	public String getHashValueRegistryForVerification(String hashofFile,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
+		//String allFileString="";
 		
-		File file = new File(filePath); 
+		//File file = new File(filePath); 
 		
-		BufferedReader br = new BufferedReader(new FileReader(file)); 
+	/*	BufferedReader br = new BufferedReader(new FileReader(file)); 
 		String line; 
 		while ((line = br.readLine()) != null) {
 			if(!line.contains("##sig")){
@@ -94,16 +94,15 @@ public class Hash {
 			else{
 				
 			}
-		}
-		allFileString = allFileString.substring(0, allFileString.length() - 1);
-		br.close();
+		}*/
+		//allFileString = allFileString.substring(0, allFileString.length() - 1);
+	//	br.close();
 		MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
-		md.update(allFileString.getBytes());
+		md.update(hashofFile.getBytes());
 		byte[] digest = md.digest();
 		String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
 		registryFileHash = myHash;
 		//registryFile.write("##signature: "+myHash);
-		System.out.println(myHash);
 		return myHash;
 		//return allFileString;
 	}
@@ -121,29 +120,32 @@ public class Hash {
 	
 	//input -> folder path
 		//function : list files in this folder
-	/*	public void createFilePathListForVerification(String folderPath,String hashAlgorithm,String registryString) throws IOException, NoSuchAlgorithmException{
+		public String createFilePathListForVerification(String folderPath,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
+			String registryString="";
 			File folder = new File(folderPath);
 			File[] listOfFiles = folder.listFiles();
 
 			for (int i = 0; i < listOfFiles.length; i++) {
 				if (listOfFiles[i].isFile() && !listOfFiles[i].isHidden()) {
-					getHashValueForVerification(listOfFiles[i].getPath(),hashAlgorithm,registryString);
+					registryString=registryString+getHashValueForVerification(listOfFiles[i].getPath(),hashAlgorithm);
 					}
 				else if (listOfFiles[i].isDirectory() && !listOfFiles[i].isHidden()) {
 					File subfolder = new File(listOfFiles[i].getPath());
 					File[] listOfSubFiles = subfolder.listFiles();
 					for (int k = 0; k < listOfSubFiles.length; k++) {
-						getHashValueForVerification(listOfSubFiles[k].getPath(),hashAlgorithm,registryString);
+						registryString=registryString+getHashValueForVerification(listOfSubFiles[k].getPath(),hashAlgorithm);
 					}
 				}}
-			}*/
+			return registryString;
+			}
 			//getHashValueRegistry(registryFilePath, registryFile,hashAlgorithm);
 			
 		
 		
 		//convert from file context(string format) to hash value
 		//write "file path - file's hash value"
-	/*	public void getHashValueForVerification(String filePath,String hashAlgorithm,String registryString) throws IOException, NoSuchAlgorithmException{
+		public String getHashValueForVerification(String filePath,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
+			String registryString="";
 			String allFileString="";
 			File file = new File(filePath); 
 			BufferedReader br = new BufferedReader(new FileReader(file)); 
@@ -157,7 +159,8 @@ public class Hash {
 			byte[] digest = md.digest();
 			String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
 			registryString = registryString + (filePath+" "+myHash+"\n");
-		}*/
+			return registryString;
+		}
 	
 	
 }
