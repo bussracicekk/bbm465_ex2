@@ -15,7 +15,6 @@ public class Verification {
 	public void verification(PublicKey publicKey,String hashData,String sign) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, SignatureException{
 		byte[] dateBytes = hashData.getBytes("UTF-8");
 		byte[] signatureBytes = Base64.getDecoder().decode(sign);
-		System.out.println("sign"+sign);
 		Signature signature = Signature.getInstance("SHA1withRSA");
 		signature.initVerify(publicKey);
 		signature.update(dateBytes);
@@ -24,3 +23,5 @@ public class Verification {
 	}
 
 }
+
+

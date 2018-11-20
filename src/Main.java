@@ -34,8 +34,7 @@ public class Main {
 		PrintWriter registryFile;
 		FileOutputStream privateFile;
 		FileOutputStream publicFile;
-		
-		
+
 		//for this command format:
 		//"integrity start -p P -r R -l L -h H -k PriKey PubKey -i #"
 		if(parts[1].equals("start")){
@@ -46,7 +45,6 @@ public class Main {
 			privateFile = new FileOutputStream(privateKeyPath);
 			gKeys.createKeys();
 			gKeys.writeToFile(privateFile,privateKeyPath, gKeys.getPrivateKey().getEncoded());
-			
 			PrivateKey priKey = sign.readPrivateKeyFile(privateKeyPath);
 			
 			hashAlgorithm = parts[9];
@@ -55,13 +53,8 @@ public class Main {
 			publicFile = new FileOutputStream(publicKey);
 			gKeys.writeToFile(publicFile,publicKey, gKeys.getPublicKey().getEncoded());
 			
-			//PublicKey pubKey = sign.readPublicKeyFile(publicKey);
-			
-			
 			folderPath = parts[3];
-			
 			hash.createFilePathList(folderPath,registryFile,registerFilePath,hashAlgorithm);
-			
 
 			logFilePath = parts[7];
 								
@@ -71,12 +64,9 @@ public class Main {
 			privateFile.close();
 			publicFile.close();
 			//registryFile = new PrintWriter(registerFilePath, "UTF8",true);
-			PrintWriter registryFile2 = new PrintWriter(new FileOutputStream(
-				   new File(registerFilePath), 
-				    true )); 
+			PrintWriter registryFile2 = new PrintWriter(new FileOutputStream(new File(registerFilePath), true )); 
 			
-			
-			String hashValueEndOfRegistryFile = hash.getHashValueRegistry(registerFilePath, hashAlgorithm,registryFile2);
+			String hashValueEndOfRegistryFile = hash.getHashValueRegistry(registerFilePath, hashAlgorithm);
 			sign.signHashValue(hashValueEndOfRegistryFile,priKey,registryFile2,registerFilePath);
 			registryFile2.close();
 		}
@@ -94,7 +84,7 @@ public class Main {
 		
 		publicKey = parts[10];
 		PublicKey pubKey = sign.readPublicKeyFile(publicKey);
-		
+
 		registerFilePath = parts[4];
 		File registerFile = new File(registerFilePath); 
 		BufferedReader br = new BufferedReader(new FileReader(registerFile)); 
@@ -103,20 +93,20 @@ public class Main {
 		String st; 
 		while ((st = br.readLine()) != null) {
 			if(!st.contains("##signature:")){
-				hashData = hashData + st + "\n";
+				//hashData = hashData + st + '\n';
 			}
 			else{
 				String p[] = st.split(" ");
 				signature= p[1];
 			}
 		  }
-		hashData = hashData.substring(0, hashData.length() - 1);
+		
+		hashData=hash.getHashValueRegistryForVerification(registerFilePath, parts[8]);
+		System.out.println(hashData);
+		System.out.println(signature);
 		Verification veri = new Verification();
 		veri.verification(pubKey, hashData, signature);
 		}
-		
-		
-	
 	
 	public static void readConsole() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, SignatureException, IOException{
 		sc = new Scanner(System.in);

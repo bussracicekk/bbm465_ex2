@@ -19,8 +19,6 @@ public class Hash {
 		return registryFileHash;
 	}
 	
-	
-	
 	//input -> folder path
 	//function : list files in this folder
 	public void createFilePathList(String folderPath, PrintWriter registryFile, String registryFilePath,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
@@ -39,8 +37,7 @@ public class Hash {
 				}
 			}
 		}
-		getHashValueRegistry(registryFilePath,hashAlgorithm,registryFile);
-		
+		//getHashValueRegistry(registryFilePath,hashAlgorithm,registryFile);
 	}
 	
 	//convert from file context(string format) to hash value
@@ -58,19 +55,19 @@ public class Hash {
 		md.update(allFileString.getBytes());
 		byte[] digest = md.digest();
 		String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
-		
-		registryFile.write(filePath+" "+myHash+"\n");
+		registryFile.write(filePath+' '+myHash+"\n");
 	}
 	
-	public String getHashValueRegistry(String filePath,String hashAlgorithm,PrintWriter registryFile) throws IOException, NoSuchAlgorithmException{
+	public String getHashValueRegistry(String filePath,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
 		String allFileString="";
 		File file = new File(filePath); 
 		
 		BufferedReader br = new BufferedReader(new FileReader(file)); 
 		String line; 
 		while ((line = br.readLine()) != null) {
-			allFileString = allFileString+line+"\n";
+			allFileString = allFileString+line+'\n';
 		}
+		allFileString = allFileString.substring(0, allFileString.length() - 1);
 		br.close();
 		MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
 		md.update(allFileString.getBytes());
@@ -78,12 +75,37 @@ public class Hash {
 		String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
 		registryFileHash = myHash;
 		//registryFile.write("##signature: "+myHash);
-		//return myHash;
-		return allFileString;
+		System.out.println(myHash);
+		return myHash;
+		//return allFileString;
+	}
+	
+	public String getHashValueRegistryForVerification(String filePath,String hashAlgorithm) throws IOException, NoSuchAlgorithmException{
+		String allFileString="";
 		
+		File file = new File(filePath); 
 		
-
-		
+		BufferedReader br = new BufferedReader(new FileReader(file)); 
+		String line; 
+		while ((line = br.readLine()) != null) {
+			if(!line.contains("##sig")){
+				allFileString = allFileString+line+'\n';
+			}
+			else{
+				
+			}
+		}
+		allFileString = allFileString.substring(0, allFileString.length() - 1);
+		br.close();
+		MessageDigest md = MessageDigest.getInstance(hashAlgorithm);
+		md.update(allFileString.getBytes());
+		byte[] digest = md.digest();
+		String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+		registryFileHash = myHash;
+		//registryFile.write("##signature: "+myHash);
+		System.out.println(myHash);
+		return myHash;
+		//return allFileString;
 	}
 	
 	

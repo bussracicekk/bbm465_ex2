@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -9,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
@@ -24,6 +26,10 @@ public class GenerateKeys {
 	public GenerateKeys(int keylength) throws NoSuchAlgorithmException, NoSuchProviderException {
 		this.keyPairGen = KeyPairGenerator.getInstance("RSA");
 		this.keyPairGen.initialize(keylength);
+	}
+	
+	public GenerateKeys() {
+		
 	}
 
 	public void createKeys() {
@@ -69,15 +75,11 @@ public class GenerateKeys {
 		return this.publicKey;
 	}
 
-	public void writeToFile(FileOutputStream fs,String path,byte[] key) throws IOException {
+	public void writeToFile(FileOutputStream fs,String path,byte[] key) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 		File f = new File(path);
-		//f.getParentFile().mkdirs();
-		//String s = key.toString();
-
 		fs = new FileOutputStream(f);
 		fs.write(key);
 		fs.flush();
 		fs.close();
-		
 	}
 }
